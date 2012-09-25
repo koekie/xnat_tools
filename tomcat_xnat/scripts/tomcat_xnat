@@ -1,2 +1,45 @@
-# placeholder
-# ...
+#!/bin/sh
+##
+# tomcat
+### BEGIN INIT INFO
+# Provides:          tomcat_xnat
+# Required-Start:    $local_fs $remote_fs $network $syslog $named
+# Required-Stop:     $local_fs $remote_fs $network $syslog $named
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# X-Interactive:     true
+# Short-Description: Start/stop tomcat xnat service
+### END INIT INFO
+
+# to enable/disable this script, run the following command:
+# update-rc.d tomcat_xnat defaults
+
+export JAVA_HOME=/opt/jdk1.6
+export TOMCAT_PATH=/opt/tomcat6_xnat
+
+#todo: status() 
+
+start()
+{
+  su - xnat $TOMCAT_PATH/bin/startup.sh  
+}
+
+stop() 
+{
+  su - xnat $TOMCAT_PATH/bin/shutdown.sh
+}
+
+case "$1" in 
+    start)	
+	start;
+	;;
+    stop)
+	stop;
+	;;
+    restart)
+	stop;
+        sleep 1; 
+	start;
+        ;;
+esac
+exit 0
